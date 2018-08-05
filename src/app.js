@@ -1,7 +1,24 @@
 // import React from 'react';
 // import ReactDOM from 'react-dom';
-// import './js/vendor/tiny-slider';
 import './css/style.css';
+
+const Sticky = require('sticky-js');
+import {tns} from '../node_modules/tiny-slider/src/tiny-slider';
+
+
+
+const sticky = new Sticky('.logoMenu', {
+    wrap: true
+});
+
+// sticky.update();
+
+
+tns({
+    container: '.slider',
+})
+
+
 
 // ReactDOM.render(
 // 	<div></div>,

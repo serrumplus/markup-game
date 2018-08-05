@@ -5,6 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 // const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 
@@ -15,13 +17,15 @@ module.exports = {
 	mode: process.env.NODE_ENV === 'development' ? 'development' : 'production',
 
 	entry: {
-		tinyslider: './js/vendor/tiny-slider',
+		tinyslider: ['tiny-slider', './css/tiny-slider.css'],
 		custom: './app',
+		sticky: ['sticky-js'],
+		// styles: ['./css/style.css']
 	},
 
 	output: {
 		path: path.resolve(__dirname, 'public'),
-		filename: 'js/[name].js',
+		filename: 'scripts/[name].js',
 		// chunkFilename: 'js/[id].chunk.js',
 	},
 
@@ -75,6 +79,18 @@ module.exports = {
 						}
 					},
 				]
+			},
+			{
+				test: /\.(woff|woff2|eot|ttf|otf)$/,
+				use: [ 
+					{
+						loader: 'file-loader',
+						options: {
+							outputPath: 'fonts/',
+							name: '[name].[ext]',
+						},
+					}
+				]
 			}
 		],
 	},
@@ -84,8 +100,9 @@ module.exports = {
 	},
 
 	plugins: [
+
 		process.env.NODE_ENV === 'production' && new MiniCssExtractPlugin({
-			filename: "css/style.css",
+			filename: "css/[name].css",
 		}),   
 
 		// process.env.NODE_ENV === 'development' && new webpack.NamedModulesPlugin(),
@@ -98,15 +115,30 @@ module.exports = {
 
 		// new SpriteLoaderPlugin(),
 
+		new CopyWebpackPlugin([
+			{ from: './img/logo.png', to: './img/' },
+			{ from: './img/temp/promo.png', to: './img/temp' }
+		]),
+
+		
+
+
 	].filter(Boolean),
 
 	optimization: {
 		// minimizer: [
 		// 	new OptimizeCSSAssetsPlugin({})
 		// ]
-		// splitChunks: {
-		// 	chunks: "all",
-		// }
+		splitChunks: {
+			cacheGroups: {
+				// styles: {
+				// 	name: 'styles',
+				// 	test: /\.css$/,
+				// 	chunks: 'all',
+				// 	enforce: true
+				// }
+			}
+		}
 	},
 
 	devServer: {  
