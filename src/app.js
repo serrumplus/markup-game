@@ -7,9 +7,7 @@ import {tns} from '../node_modules/tiny-slider/src/tiny-slider';
 
 
 
-const sticky = new Sticky('.logoMenu', {
-    wrap: true
-});
+const sticky = new Sticky('[data-sticky]', {});
 
 // sticky.update();
 
