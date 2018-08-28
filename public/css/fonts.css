@@ -1,0 +1,28 @@
+@font-face {
+    font-family: 'PaladinPCRus Medium';
+    font-style: normal;
+    font-weight: 400;
+    src: local('PaladinPCRus Medium'), local('PaladinPCRus-Medium'),
+        url(../fonts/paladinpcrus-medium.woff) format('woff'),
+        url(../fonts/paladinpcrus-medium.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'DrPoDecorRu';
+    font-style: normal;
+    font-weight: 400;
+    src: local('DrPoDecorRu'), local('DrPoDecorRu-Regular'),
+        url(../fonts/DrPoDecorRu.woff) format('woff'),
+        url(../fonts/DrPoDecorRu.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Moyenage';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Moyenage'), local('Moyenage-Regular'),
+        url(../fonts/moyenage.woff) format('woff'),
+        url(../fonts/moyenage.ttf) format('truetype');
+}
+
+/*# sourceMappingURL=fonts.css.map*/
