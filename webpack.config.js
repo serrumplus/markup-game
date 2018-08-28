@@ -3,9 +3,12 @@ const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+
 
 // const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
@@ -17,16 +20,16 @@ module.exports = {
 	mode: process.env.NODE_ENV === 'development' ? 'development' : 'production',
 
 	entry: {
-		tinyslider: ['tiny-slider', './css/tiny-slider.css'],
-		custom: './app',
-		sticky: ['sticky-js'],
+		custom: ['./app', './css/style.css'],
+		fonts: './css/fonts.css',
+		tinyslider: ['./css/tiny-slider.css'],
 		// styles: ['./css/style.css']
 	},
 
 	output: {
 		path: path.resolve(__dirname, 'public'),
 		filename: 'scripts/[name].js',
-		// chunkFilename: 'js/[id].chunk.js',
+		chunkFilename: "scripts/[name].chunk.js"
 	},
 
 	module: {
@@ -48,13 +51,21 @@ module.exports = {
 					},
 					{
 						loader: 'css-loader',
-						// options: {
+						options: {
 						// 	modules: true,
 						// 	localIdentName: '[name]__[local]--[hash:base64:5]',
-						// 	importLoaders: 1,
-						// }
+							importLoaders: 1,
+						}
 					},
-					'sass-loader'
+					// 'sass-loader'
+					
+					{
+						loader: 'postcss-loader',
+						options: {
+							sourceMap: true
+						}
+					},
+					
 				],
 			},
 			{
@@ -120,7 +131,13 @@ module.exports = {
 			{ from: './img/temp/promo.png', to: './img/temp' }
 		]),
 
-		
+		// new ExtractCssChunks({
+		// 	  // Options similar to the same options in webpackOptions.output
+		// 	  // both options are optional
+		// 	filename: "[name].css",
+		// 	chunkFilename: "[id].css",
+		// 	hot: true // optional as the plugin cannot automatically detect if you are using HOT, not for production use
+		// })
 
 
 	].filter(Boolean),
@@ -129,14 +146,35 @@ module.exports = {
 		// minimizer: [
 		// 	new OptimizeCSSAssetsPlugin({})
 		// ]
+		// runtimeChunk: true,
 		splitChunks: {
 			cacheGroups: {
+
 				// styles: {
-				// 	name: 'styles',
+				// 	name: 'fonts',
 				// 	test: /\.css$/,
 				// 	chunks: 'all',
 				// 	enforce: true
-				// }
+				// },
+
+				tinyslider: { 
+					test: /tiny-slider/, 
+					name: "tinyslider", 
+					chunks: "all",
+					enforce: true
+				},
+
+				sticky: { 
+					// test (chunks) {
+					// 	console.log(chunks.resource, '  ', /[\\/]node_modules[\\/]react[\\/]/.test(chunks.resource));
+					// 	return /[\\/]node_modules[\\/]sticky-js[\\/]/.test(chunks.resource);
+					// },
+					test: /sticky-js/,
+					name: "sticky", 
+					chunks: "initial",
+					enforce: true
+				}
+
 			}
 		}
 	},
