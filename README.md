@@ -1,6 +1,6 @@
 # Landing page for browser game
 
-Demo: http://blogs-24.ru/markup-game/
+Demo: https://rego-devil.github.io/markup-game/public/
 
 Used next technologies:
 1) HTML5
